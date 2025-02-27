@@ -76,7 +76,7 @@ def cart(request, total=0, quantity=0, cart_items=None):
             quantity += cart_item.quantity
             total_tax = round(total * 0.16, 2)
             general_total = round(total + total_tax)
-    except Cart.DoesNotExist: # type: ignore
+    except Cart.DoesNotExist:
         pass
     
     context = {
