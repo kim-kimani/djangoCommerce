@@ -7,7 +7,12 @@
     <div class="container">
     
     <!-- ============================ COMPONENT 1 ================================= -->
-    
+    {% if not cart_items %}
+        <div class="text-center">
+            <h2 >Your cart is empty</h4> <br>
+            <p><a href="{% url 'store' %}" class="btn btn-primary">Countinue Shopping</a></p>
+        </div>
+    {% else %}
     <div class="row">
         <aside class="col-lg-9">
     <div class="card">
@@ -25,9 +30,10 @@
     <tr>
         <td>
             <figure class="itemside align-items-center">
-                <div class="aside"><img src="{{ cart_item.product.product_images.url }}" class="img-sm"></div>
+                <div class="aside">
+                    <a href="{{ cart_item.product.get_url }}"><img src="{{ cart_item.product.product_images.url }}" class="img-sm"></div></a>
                 <figcaption class="info">
-                    <a href="#" class="title text-dark">{{ cart_item.product.product_name }}</a>
+                    <a href="{{ cart_item.product.get_url }}" class="title text-dark">{{ cart_item.product.product_name }}</a>
                     <p class="text-muted small">Matrix: 25 Mpx <br> Brand: Canon</p>
                 </figcaption>
             </figure>
@@ -56,7 +62,7 @@
         <a href="{% url 'remove_cart_item' cart_item.product.id %}" class="btn btn-danger"> Remove</a>
         </td>
     </tr>
-{% endfor %}
+    {% endfor %}
     </tbody>
     </table>
     </div> <!-- card.// -->
@@ -67,24 +73,24 @@
             <div class="card">
             <div class="card-body">
                 <dl class="dlist-align">
-                  <dt>Sub Total:</dt>
-                  <dd class="text-right">Ksh {{ total|intcomma }}</dd>
+                    <dt>Sub Total:</dt>
+                    <dd class="text-right">Ksh {{ total|intcomma }}</dd>
                 </dl>
                 <dl class="dlist-align">
-                  <dt>Tax:<br><small class="text-muted"> 16% VAT </small></dt>
-                  <dd class="text-right"><br>Ksh {{ total_tax|intcomma }}</dd>
+                    <dt>Tax:<br><small class="text-muted"> 16% VAT </small></dt>
+                    <dd class="text-right"><br>Ksh {{ total_tax|intcomma }}</dd>
                 </dl>
                 <hr>
                 <dl class="dlist-align">
-                  <dt>Total Price:<br><small class="text-muted"> Inclusive VAT </small></dt>
-                  <dd class="text-right text-dark b"><strong><br>Ksh {{ general_total|intcomma }}</strong></dd>
+                    <dt>Total Price:<br><small class="text-muted"> Inclusive VAT </small></dt>
+                    <dd class="text-right text-dark b"><strong><br>Ksh {{ general_total|intcomma }}</strong></dd>
                 </dl>
                 <hr>
                 <p class="text-center mb-3">
                     <img src="{% static './images/misc/payments.png' %}" height="26">
                 </p>
                 <a href="./place-order.html" class="btn btn-primary btn-block"> Checkout </a>
-                <a href="./store.html" class="btn btn-light btn-block">Continue Shopping</a>
+                <a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
             </div> <!-- card-body.// -->
             </div> <!-- card.// -->
     
@@ -93,7 +99,7 @@
     
     </div> <!-- row.// -->
     <!-- ============================ COMPONENT 1 END .// ================================= -->
-    
+    {% endif %}
     </div> <!-- container .//  -->
     </section>
     <!-- ========================= SECTION CONTENT END// ========================= -->

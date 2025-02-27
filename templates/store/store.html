@@ -135,7 +135,7 @@
             <figure class="card card-product-grid">
                 <div class="img-wrap"> 
                     <a href="{{ product.get_url }}"><img src="{{ product.product_images.url }}">
-                </div> <!-- img-wrap.// -->
+                </div></a> <!-- img-wrap.// -->
                 <figcaption class="info-wrap">
                     <div class="fix-height">
                         <a href="{{ product.get_url }}" class="title">{{ product.product_name}}</a>
@@ -148,7 +148,14 @@
                             {% endif %}
                         </div> <!-- price-wrap.// -->
                     </div>
-                    <a href="#" class="btn btn-block btn-primary">Add to cart </a>
+                    <a href="{{ product.get_url }}" class="btn btn-block btn-primary">View Details </a>
+
+
+                    <!-- {% if product.stock <= 0 %}
+                        <a href="{{ product.get_url }}" class="btn btn-block btn-outline-primary">View Details </a>
+                    {% else %}
+                        <a href="{%  url 'add_cart' product.id %}" class="btn btn-block btn-primary">Add to Cart </a>
+                    {% endif %} -->
                 </figcaption>
             </figure>
         </div> <!-- col.// -->
