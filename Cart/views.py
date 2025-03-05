@@ -22,28 +22,48 @@ def add_cart(request, product_id):
                 variation = Variation.objects.get(product=product, variation_category__iexact=key, variation_value__iexact=value)
                 product_variation.append(variation)
             except:
-                pass        
+                pass       
         
     try:
         cart = Cart.objects.get(cart_id=_cart_id(request)) # get the cart using the cart_id present in the session
-    
     except Cart.DoesNotExist:
         cart = Cart.objects.create(
             cart_id = _cart_id(request)
         )
     cart.save()
     
-    try:
-        cart_item = CartItem.objects.get(product=product, cart=cart)
-        cart_item.quantity += 1  #cart_item.quantity = existing quantity + 1
-        cart_item.save()
+    is_cart_item_exists = CartItem.objects.filter(product=product, cart=cart).exists()
+    if is_cart_item_exists:
+        cart_item = CartItem.objects.filter(product=product, cart=cart)
+        ex_var_list = []
+        for item in cart_item:
+            existing_variation = item.variations.all()
+            ex_var_list.append(existing_variation)
+            
+        print(ex_var_list)
         
-    except CartItem.DoesNotExist:
+        if product_variation in ex_var_list:
+            return HttpResponse('Product already in cart')
+        else:
+            return HttpResponse('False')
+        
+        if len(product_variation) > 0:
+            cart_item.variations.clear()
+            for item in product_variation:
+                cart_item.variations.add(item)
+        # cart_item.quantity += 1  #cart_item.quantity = existing quantity + 1
+        # cart_item.save()
+        
+    else:
         cart_item = CartItem.objects.create(
             product = product,
             quantity = 1,
             cart = cart,
         )
+        if len(product_variation) > 0:
+            cart_item.variations.clear()
+            for item in product_variation:
+                cart_item.variations.add(item)
         cart_item.save()
     
     return redirect('cart')

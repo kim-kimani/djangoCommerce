@@ -41,19 +41,19 @@
 					<div class="row">
 						<div class="item-option-select">
 							<h6>Choose Color</h6>
-								<!-- <select name="color" class="form-control" required>
+							<div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
+								<select name="color" class="form-control" required>
 									<option value="" disabled selected>Choose Color</option>
-									{% for i in single_product.variation_set.all %}
+									{% for i in single_product.variation_set.colors %}
 										<option value="{{ i.variation_value }}">{{ i.variation_value }}</option>
 									{% endfor %}
-								</select> -->
+								</select>
 
-							<div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-								{% for i in single_product.variation_set.colors %}
+								<!-- {% for i in single_product.variation_set.colors %}
 									<label class="btn btn-light">
-										<input type="radio" name="color" value="{{ i.variation_value | lower }}" required> {{ i.variation_value }}
+										<input type="radio" name="color" value="{{ i.variation_value | lower }}" required autocomplete="off"> {{ i.variation_value }}
 									</label>
-								{% endfor %}
+								{% endfor %}  -->
 							</div>
 						</div>
 					</div> <!-- row.// -->
@@ -61,25 +61,21 @@
 						<div class="item-option-select">
 							<h6>Select Size</h6>
 							<div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-								{% for i in single_product.variation_set.sizes %}
+								<select name="size" class="form-control" required>
+									<option value="" disabled selected>Select Size</option>
+									{% for i in single_product.variation_set.sizes %}
+										<option value="{{ i.variation_value }}">{{ i.variation_value }}</option>
+									{% endfor %}
+								</select>
+
+
+								<!-- {% for i in single_product.variation_set.sizes %}
 									<label class="btn btn-light">
-										<input type="radio" name="size" value="{{ i.variation_value | lower }}" required> {{ i.variation_value }}
+										<input type="radio" name="size" value="{{ i.variation_value | lower }}" required autocomplete="off"> {{ i.variation_value }}
 									</label>
-								{% endfor %}
+								{% endfor %} -->
 							</div>
 
-							<!-- <label class="btn btn-light">
-								<input type="radio" name="radio_color"> S
-							</label>
-							<label class="btn btn-light active">
-								<input type="radio" name="radio_color" checked> M
-							</label>
-							<label class="btn btn-light">
-								<input type="radio" name="radio_color"> L
-							</label>
-							<label class="btn btn-light">
-								<input type="radio" name="radio_color"> XL
-							</label> -->
 						</div >
 					</div> <!-- row.// -->
 					<hr>
@@ -88,7 +84,7 @@
 					{% else %}
 						{% if in_cart %}
 						<!--- added to cart --->
-							<a href="#" class="btn  btn-success"> <span class="text">Added to Cart</span> <i class="fas fa-check"></i></a>
+							<a href="{% url 'add_cart' single_product.id %}" class="btn  btn-success"> <span class="text">In Cart <i class="fas fa-check"></i> Add Again</span></a>
 							<a href="{% url 'cart' %}" class="btn btn-outline-primary"> <span class="text">View Cart</span> <i class="fas fa-eye"></i>  </a>
 						{% else %}
 							<button type="submit" class="btn  btn-primary"> <span class="text">Add to Cart</span> <i class="fas fa-shopping-cart"></i>  </button>
